@@ -10,16 +10,18 @@ import { Footer } from './components/footer'
 
 export default class Main extends Component<{}, {}> {
 
-  render() {
+  public render() {
     return <Theme>
       <GlobalStyle />
-      <Header />
       <BrowserRouter>
-        <main>
-          <Routes />
-        </main>
+        <>
+          <Header />
+          <main>
+            <Routes />
+          </main>
+          <Footer />
+        </>
       </BrowserRouter>
-      <Footer />
     </Theme>
   }
 }

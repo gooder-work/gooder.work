@@ -1,5 +1,6 @@
 import React from 'react'
 import { FunctionComponent } from 'react'
+import { Link } from 'react-router-dom'
 import styled from 'styled-components'
 
 const GooderHeader = styled.header`
@@ -11,6 +12,6 @@ const GooderHeader = styled.header`
 
 export const Header: FunctionComponent<{}> = props => {
   return <GooderHeader>
-    <h1>gooder.work</h1>
+    <Link to='/'><h1>gooder.work</h1></Link>
   </GooderHeader>
 }

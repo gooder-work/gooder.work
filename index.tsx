@@ -1,8 +1,13 @@
 console.log('Do gooder work')
 
 import React from 'react'
-import { render } from 'react-dom'
+import { render, hydrate } from 'react-dom'
 
 import Main from './main'
 
-render(<Main />, document.getElementById('main'))
+const main = <Main />
+const target = document.getElementById('main')
+
+process.env.NODE_ENV === 'production'
+  ? hydrate(main, target)
+  : render(main, target)

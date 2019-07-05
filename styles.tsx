@@ -60,7 +60,7 @@ export const GlobalStyle = createGlobalStyle`
   }
 
   main {
-    min-height: 100vh;
+    min-height: 66vh;
     padding: ${({ theme })=> `${theme.sizes.rythm*6}px ${theme.sizes.rythm}px ${theme.sizes.rythm}px`};
   }
 
