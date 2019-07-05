@@ -16,15 +16,26 @@ import { Routes } from './routes'
 import { Header } from './components/header'
 import { Footer } from './components/footer'
 
+import { featuredPostings, createPosting } from './server/services/postings'
+
+
 const server: Application = express()
 server.disable('x-powered-by')
 server.enable('trust proxy')
-server.use(cors({ origin: true }))
+server.use(cors({ origin: true, credentials: true }))
 
 server.use('/dist', express.static(`${__dirname}`))
 server.use(compression())
 
-server.get('/*', async (req: Request, res: Response) => {
+server.get('/featured_postings', async (req, res) => {
+  res.send(await featuredPostings())
+})
+
+server.post('/create_posting', json(), async (req, res) => {
+  res.send(await createPosting(req.body))
+})
+
+server.get('/*', async (req, res) => {
   const sheet = new ServerStyleSheet()
   const html = renderToString(sheet.collectStyles(<Theme>
     <GlobalStyle />
