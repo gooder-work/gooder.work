@@ -6,7 +6,7 @@ import { CompanyDocument } from './company';
 export interface PostingDocument {
   _id?: string
   title: string
-  company: CompanyDocument[]
+  company: CompanyDocument
 }
 
 export default class Posting {
@@ -27,7 +27,15 @@ export default class Posting {
       },
     }
 
-    return this.db.collection(this.collection).aggregate([match, lookup]).toArray()
+    const companyUnwind = {
+      '$unwind': {
+        'path': '$company',
+        'includeArrayIndex': '0',
+        'preserveNullAndEmptyArrays': false
+      },
+    }
+
+    return this.db.collection(this.collection).aggregate([match, lookup, companyUnwind]).toArray()
   }
 
   static async one(_id: ObjectId) {
