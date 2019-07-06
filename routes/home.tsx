@@ -5,6 +5,7 @@ import { Link, RouteComponentProps } from 'react-router-dom'
 
 import { Query } from 'react-fetching-library'
 import { PostingDocument } from '../server/models/posting'
+import { JobLine } from '../components/job-line';
 
 
 
@@ -15,11 +16,9 @@ export const Home: FunctionComponent<RouteComponentProps<any>> = props => {
   }}>
     {({ loading, error, payload: postings, query }) => <>
       <p><Link to='/search'>Search</Link></p>
-      <ul>
-        {!loading && postings.map(posting => <li key={posting._id}>
-          <Link to={`/postings/${posting._id}`}>{`${posting.title} @ ${posting.company.name}`}</Link>
-        </li>)}
-      </ul>
+      <div>
+        {!loading && postings.map(posting => <JobLine posting={posting} />)}
+      </div>
     </>}
   </Query>
 }
