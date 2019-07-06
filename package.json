@@ -4,10 +4,11 @@
   "description": "Do gooder work",
   "author": "Phillip Malboeuf & Myles Tan",
   "scripts": {
-    "dev": "parcel index.html -p 8080 --open",
-    "dev:server": "parcel watch server.tsx --target=node --out-file=server.js | env $(cat .env) nodemon dist/server.js",
-    "build": "parcel build server.tsx --target=node --out-file=server.js | parcel build index.tsx --experimental-scope-hoisting",
-    "test": "parcel watch *.test.tsx | jest --watchAll"
+    "dev": "parcel src/index.html -p 8080 --open",
+    "dev:server": "parcel watch src/server.tsx --target=node --out-file=server.js | env $(cat .env) nodemon dist/server.js",
+    "build": "parcel build src/server.tsx --target=node --out-file=server.js | parcel build src/index.tsx --experimental-scope-hoisting",
+    "test": "parcel watch tests/*.test.tsx | jest --watchAll",
+    "lint": "tslint -c tslint.json 'src/**/*.ts{,x}'"
   },
   "dependencies": {
     "body-parser": "^1.19.0",
@@ -40,6 +41,7 @@
     "jest": "^24.8.0",
     "nodemon": "^1.19.1",
     "parcel-bundler": "^1.12.3",
+    "tslint": "^5.18.0",
     "typescript": "^3.5.2"
   }
 }

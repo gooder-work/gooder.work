@@ -12,7 +12,7 @@ const GooderButton = styled.button`
   color: ${({ theme }) => theme.colors.background};
   text-decoration: none;
   line-height: ${({ theme }) => theme.sizes.rythm}px;
-  font-size: ${({ theme }) => theme.sizes.rythm/1.333}px;
+  font-size: ${({ theme }) => theme.sizes.rythm / 1.333}px;
   font-weight: bold;
   text-align: center;
   background-color: ${({ theme }) => theme.colors.primary};
@@ -36,9 +36,6 @@ const GooderButton = styled.button`
   }
 `
 
-export interface Props {
-}
-
-export const Button: FunctionComponent<Props> = props => {
+export const Button: FunctionComponent<{}> = props => {
   return <GooderButton>{props.children}</GooderButton>
 }

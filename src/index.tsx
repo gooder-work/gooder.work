@@ -1,3 +1,4 @@
+// tslint:disable-next-line: no-console
 console.log('Do gooder work')
 
 import React from 'react'

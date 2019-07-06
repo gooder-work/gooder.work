@@ -8,24 +8,24 @@ export interface PostingDocument {
 }
 
 export default class Posting {
-  static collection = 'postings'
-  static db: Db
+  public static collection = 'postings'
+  public static db: Db
 
-  static async list(filters: FilterQuery<PostingDocument>): Promise<PostingDocument[]> {
+  public static async list(filters: FilterQuery<PostingDocument>): Promise<PostingDocument[]> {
     return this.db.collection(this.collection).find(filters).toArray()
   }
 
-  static async one(_id: ObjectId) {
-    return this.db.collection(this.collection).findOne({ _id })
+  public static async one(id: ObjectId) {
+    return this.db.collection(this.collection).findOne({ _id: id })
   }
 
-  static async create(data: PostingDocument): Promise<PostingDocument> {
+  public static async create(data: PostingDocument): Promise<PostingDocument> {
     const result = await this.db.collection(this.collection).insertOne({
       created_at: new Date(),
-      ...data
+      ...data,
     })
     return this.one(result.insertedId)
   }
 }
 
-db().then(db => Posting.db = db)
+db().then(database => Posting.db = database)
