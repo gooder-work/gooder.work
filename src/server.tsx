@@ -16,7 +16,7 @@ import { Routes } from './routes'
 import { Header } from './components/header'
 import { Footer } from './components/footer'
 
-import { featuredPostings, createPosting } from './server/services/postings'
+import { postings } from './server/services/postings'
 
 
 const server: Application = express()
@@ -27,12 +27,19 @@ server.use(cors({ origin: true, credentials: true }))
 server.use('/dist', express.static(`${__dirname}`))
 server.use(compression())
 
-server.get('/featured_postings', async (req, res) => {
-  res.send(await featuredPostings())
-})
+const services = {
+  postings,
+}
 
-server.post('/create_posting', json(), async (req, res) => {
-  res.send(await createPosting(req.body))
+Object.entries(services).forEach(([root, methods]) => {
+  Object.entries(methods).forEach(([method, endpoints]) => {
+    Object.entries(endpoints).forEach(([title, service]) => {
+      server[method as 'get'](`/services/${root}/${title}`, json(), async (req, res) => {
+        const response = await service(req.body)
+        res.send(response)
+      })
+    })
+  })
 })
 
 server.get('/*', async (req, res) => {
