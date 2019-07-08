@@ -10,14 +10,9 @@ import { renderToString } from 'react-dom/server'
 import { ServerStyleSheet } from 'styled-components'
 import { oneLine } from 'common-tags'
 
-import { GlobalStyle, Theme } from './styles'
-import { Routes } from './routes'
-
-import { Header } from './components/header'
-import { Footer } from './components/footer'
-
 import { queries } from './server/queries'
 
+import Main from './main'
 
 const server: Application = express()
 server.disable('x-powered-by')
@@ -37,22 +32,10 @@ Object.entries(queries).forEach(([method, endpoints]) => {
 })
 
 server.get('/*', async (req, res) => {
-  const jsx = <Theme>
-    <GlobalStyle />
-    <StaticRouter location={req.url}>
-      <>
-        <Header />
-        <main>
-          <Routes />
-        </main>
-        <Footer />
-      </>
-    </StaticRouter>
-  </Theme>
-
+  const main = <Main staticLocation={req.url} />
 
   const sheet = new ServerStyleSheet()
-  const html = renderToString(sheet.collectStyles(jsx))
+  const html = renderToString(sheet.collectStyles(main))
   sheet.seal()
   const css = sheet.getStyleTags()
   
