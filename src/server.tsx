@@ -13,7 +13,6 @@ import { oneLine } from 'common-tags'
 import { queries, routes } from './server/queries'
 
 import Main from './main'
-import { ResponsesContext } from './contexts/responses';
 
 const server: Application = express()
 server.disable('x-powered-by')
@@ -34,20 +33,29 @@ Object.entries(queries).forEach(([method, endpoints]) => {
 
 server.get('/*', async (req, res) => {
   let responses = {}
-  const [_, endpoints] = Object.entries(routes)
-    .find(([path]) => matchPath(req.url, { path, exact: true })) || [undefined, undefined]
-  if (endpoints) {
+
+  const match = Object.entries(routes)
+    .map(([path, endpoints]) => {
+      return {
+        ...matchPath(req.url, { path, exact: true }),
+        endpoints,
+      }
+    }).find(m => m.path)
+
+  if (match) {
     responses = (await Promise.all(
-      endpoints.map(async endpoint => ({
-        endpoint,
-        response: await queries.get[endpoint as 'posting'](req.params),
-      }))
-    )).reduce<{ [endpoint: string]: any }>((reduced, response) => {
+       match.endpoints.map(async endpoint => ({
+         endpoint: Object.entries<string>(match.params).reduce((reduced, entry) => {
+           return reduced.replace(`:${entry[0]}`, entry[1])
+         }, endpoint),
+         response: await queries.get[endpoint as 'featured_postings'](match.params),
+       }))
+     )).reduce<{ [endpoint: string]: any }>((reduced, response) => {
       reduced[response.endpoint] = response.response
       return reduced
     }, {})
   }
-
+  
   const main = <Main staticLocation={req.url} responses={responses} />
 
   const sheet = new ServerStyleSheet()
