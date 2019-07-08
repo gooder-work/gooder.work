@@ -27,7 +27,9 @@ export class Query<T> extends Component<{
   public componentDidMount() {
     if (!this.state.response) {
       this.request()
-    } 
+    } else {
+      delete this.context.responses[this.props.endpoint]
+    }
   }
 
   public render() {
