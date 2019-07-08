@@ -2,9 +2,10 @@ import React, { ReactNode } from 'react'
 import { Component } from 'react'
 import axios, { AxiosRequestConfig } from 'axios'
 
+import { queries } from '../server/queries'
 
 export class Query<T> extends Component<{
-  endpoint: string
+  endpoint: keyof typeof queries.get
   render: (loading: boolean, response: T) => ReactNode
 }, {
   loading: boolean
