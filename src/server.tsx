@@ -40,7 +40,7 @@ server.get('/*', async (req, res) => {
     responses = (await Promise.all(
       endpoints.map(async endpoint => ({
         endpoint,
-        response: await queries.get[endpoint](req.params),
+        response: await queries.get[endpoint as 'posting'](req.params),
       }))
     )).reduce<{ [endpoint: string]: any }>((reduced, response) => {
       reduced[response.endpoint] = response.response
