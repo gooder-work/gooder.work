@@ -11,6 +11,7 @@
     "lint": "tslint -c tslint.json 'src/**/*.ts{,x}'"
   },
   "dependencies": {
+    "algoliasearch": "^3.33.0",
     "axios": "^0.19.0",
     "body-parser": "^1.19.0",
     "common-tags": "^1.8.0",
@@ -22,11 +23,13 @@
     "react-dom": "^16.8.6",
     "react-fetching-library": "^1.5.1",
     "react-helmet": "^5.2.1",
+    "react-instantsearch-dom": "^5.7.0",
     "react-router-dom": "^5.0.1",
     "stripe": "^7.4.0",
     "styled-components": "^4.3.2"
   },
   "devDependencies": {
+    "@types/algoliasearch": "^3.30.12",
     "@types/body-parser": "^1.17.0",
     "@types/common-tags": "^1.8.0",
     "@types/compression": "0.0.36",
@@ -36,6 +39,7 @@
     "@types/react": "^16.8.23",
     "@types/react-dom": "^16.8.4",
     "@types/react-helmet": "^5.0.8",
+    "@types/react-instantsearch-dom": "^5.2.5",
     "@types/react-router-dom": "^4.3.4",
     "@types/stripe": "^6.30.8",
     "@types/styled-components": "^4.1.16",
