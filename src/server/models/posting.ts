@@ -5,6 +5,10 @@ import { db } from '../clients/mongodb'
 export interface PostingDocument {
   _id?: string
   title: string
+  city: string
+  company?: {
+    name: string
+  }
 }
 
 export default class Posting {
