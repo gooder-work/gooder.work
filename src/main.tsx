@@ -1,39 +1,44 @@
 import React from 'react'
 import { Component } from 'react'
-import { BrowserRouter } from 'react-router-dom'
-import { createClient, ClientContextProvider, RequestInterceptor } from 'react-fetching-library'
+import { BrowserRouter, StaticRouter } from 'react-router-dom'
 
 import { GlobalStyle, Theme } from './styles'
 import { Routes } from './routes'
 
 import { Header } from './components/header'
 import { Footer } from './components/footer'
+import { ResponsesContext } from './contexts/responses';
 
-const client = createClient({
-  requestInterceptors: [() => async action => {
-    return {
-      ...action,
-      endpoint: `${process.env.NODE_ENV === 'production' ? '' : '//localhost:5000'}${action.endpoint}`,
-    }
-  }],
-})
 
-export default class Main extends Component<{}, {}> {
+export default class Main extends Component<{
+  staticLocation?: string
+  responses?: { [endpoint: string]: any }
+}, {}> {
 
   public render() {
-    return <ClientContextProvider client={client}>
+    return <ResponsesContext.Provider value={{ responses: this.props.responses }}>
       <Theme>
-      <GlobalStyle />
-      <BrowserRouter>
-        <>
-          <Header />
-          <main>
-            <Routes />
-          </main>
-          <Footer />
-        </>
-      </BrowserRouter>
-    </Theme>
-  </ClientContextProvider>
+        <GlobalStyle />
+        {this.props.staticLocation
+        ? <StaticRouter location={this.props.staticLocation}>
+          <>
+            <Header />
+            <main>
+              <Routes />
+            </main>
+            <Footer />
+          </>
+        </StaticRouter>
+        : <BrowserRouter>
+          <>
+            <Header />
+            <main>
+              <Routes />
+            </main>
+            <Footer />
+          </>
+        </BrowserRouter>}
+      </Theme>
+    </ResponsesContext.Provider>
   }
 }

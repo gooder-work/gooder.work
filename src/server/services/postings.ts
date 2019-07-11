@@ -1,14 +1,16 @@
 
 import Posting, { PostingDocument } from '../models/posting'
 import { emitter } from '../events/emitter'
+import { ObjectId } from 'bson'
 
-export function featuredPostings(): Promise<PostingDocument[]> {
-  return Posting.list({ featured: true })
-}
-
-export async function createPosting(data: PostingDocument): Promise<PostingDocument> {
-  const posting = await Posting.create(data)
-  emitter.emit('posting_created', { posting })
+export const PostingsService = {
+  featured: () => Posting.list({ featured: true }),
+  find: (id: string) => Posting.one(new ObjectId(id)),
   
-  return posting
+  create: async (data: PostingDocument) => {
+    const posting = await Posting.create(data)
+    emitter.emit('posting_created', { posting })
+    
+    return posting
+  },
 }
