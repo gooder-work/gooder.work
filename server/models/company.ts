@@ -1,12 +1,14 @@
 import { FilterQuery, ObjectId, Db } from 'mongodb'
 
 import { db } from '../clients/mongodb'
+import { PostingDocument } from './posting';
 
 export interface CompanyDocument {
   _id?: string
   name: string
   tagline: string
   description: string
+  open_postings: PostingDocument[]
 }
 
 export default class Company {

@@ -17,6 +17,7 @@ import { Header } from './components/header'
 import { Footer } from './components/footer'
 
 import { featuredPostings, createPosting } from './server/services/postings'
+import { getCompany } from './server/services/companies'
 
 
 const server: Application = express()
@@ -33,6 +34,10 @@ server.get('/featured_postings', async (req, res) => {
 
 server.post('/create_posting', json(), async (req, res) => {
   res.send(await createPosting(req.body))
+})
+
+server.get('/api/companies/:companyId', async (req, res) => {
+  res.send(await getCompany(req.params.companyId))
 })
 
 server.get('/*', async (req, res) => {
