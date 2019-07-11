@@ -12,24 +12,24 @@ export interface CompanyDocument {
 }
 
 export default class Company {
-  static collection = 'companies'
-  static db: Db
+  public static collection = 'companies'
+  public static db: Db
 
-  static async list(filters: FilterQuery<CompanyDocument>): Promise<CompanyDocument[]> {
+  public static async list(filters: FilterQuery<CompanyDocument>): Promise<CompanyDocument[]> {
     return this.db.collection(this.collection).find(filters).toArray()
   }
 
-  static async one(_id: ObjectId) {
-    return this.db.collection(this.collection).findOne({ _id })
+  public static async one(id: ObjectId) {
+    return this.db.collection(this.collection).findOne({ _id: id })
   }
 
-  static async create(data: CompanyDocument): Promise<CompanyDocument> {
+  public static async create(data: CompanyDocument): Promise<CompanyDocument> {
     const result = await this.db.collection(this.collection).insertOne({
       created_at: new Date(),
-      ...data
+      ...data,
     })
     return this.one(result.insertedId)
   }
 }
 
-db().then(db => Company.db = db)
+db().then(database => Company.db = database)

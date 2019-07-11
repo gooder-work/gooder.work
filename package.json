@@ -4,12 +4,14 @@
   "description": "Do gooder work",
   "author": "Phillip Malboeuf & Myles Tan",
   "scripts": {
-    "dev": "parcel index.html -p 8080 --open",
-    "dev:server": "parcel watch server.tsx --target=node --out-file=server.js | env $(cat .env) nodemon dist/server.js",
-    "build": "parcel build server.tsx --target=node --out-file=server.js | parcel build index.tsx --experimental-scope-hoisting",
-    "test": "parcel watch *.test.tsx | jest --watchAll"
+    "dev": "parcel src/index.html -p 8080 --open",
+    "dev:server": "parcel watch src/server.tsx --target=node --out-file=server.js | env $(cat .env) nodemon dist/server.js",
+    "build": "parcel build src/server.tsx --target=node --out-file=server.js | parcel build src/index.tsx --experimental-scope-hoisting",
+    "test": "parcel watch tests/*.test.tsx | jest --watchAll",
+    "lint": "tslint -c tslint.json 'src/**/*.ts{,x}'"
   },
   "dependencies": {
+    "axios": "^0.19.0",
     "body-parser": "^1.19.0",
     "common-tags": "^1.8.0",
     "compression": "^1.7.4",
@@ -18,7 +20,6 @@
     "mongodb": "^3.2.7",
     "react": "^16.8.6",
     "react-dom": "^16.8.6",
-    "react-fetching-library": "^1.5.1",
     "react-helmet": "^5.2.1",
     "react-router-dom": "^5.0.1",
     "stripe": "^7.4.0",
@@ -40,6 +41,7 @@
     "jest": "^24.8.0",
     "nodemon": "^1.19.1",
     "parcel-bundler": "^1.12.3",
+    "tslint": "^5.18.0",
     "typescript": "^3.5.2"
   }
 }

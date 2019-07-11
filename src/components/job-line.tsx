@@ -1,7 +1,7 @@
-import React, { FunctionComponent } from "react";
-import Posting, { PostingDocument } from "../server/models/posting";
-import { Link } from "react-router-dom";
-import styled, { css } from "styled-components";
+import React, { FunctionComponent } from 'react'
+import Posting, { PostingDocument } from '../server/models/posting'
+import { Link } from 'react-router-dom'
+import styled, { css } from 'styled-components'
 
 interface ComponentProps {
   posting: PostingDocument

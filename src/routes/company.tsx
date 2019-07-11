@@ -3,27 +3,23 @@ import React from 'react'
 import { FunctionComponent } from 'react'
 import { RouteComponentProps } from 'react-router-dom'
 
-import { Query } from 'react-fetching-library'
-import { CompanyDocument } from '../server/models/company';
+import { CompanyDocument } from '../server/models/company'
+import { Query } from '../components/query'
 
 interface RouteProps {
-  companyId: string
+  id: string
 }
 
-
 export const Company: FunctionComponent<RouteComponentProps<RouteProps>> = props => {
-  return <Query<CompanyDocument> action={{
-    method: 'GET',
-    endpoint: `/api/companies/${props.match.params.companyId}`,
-  }}>
-    {({ loading, error, payload: company, query }) => {
+  return <Query<CompanyDocument> endpoint={`companies/${props.match.params.id}` as 'companies/:id'}
+    render={(loading, company) => {
       if (loading) {
         return(
           <div>
             <p>...</p>
           </div>
         )
-      } else if (!error) {
+      } else {
         return (
           <>
             <div>
@@ -32,14 +28,6 @@ export const Company: FunctionComponent<RouteComponentProps<RouteProps>> = props
             </div>
           </>
         )
-      } else {
-        return (
-          <div>
-            <p>Error :(</p>
-          </div>
-        )
       }
-    }
-  }
-  </Query>
+    }} />
 }

@@ -7,8 +7,8 @@ const GooderHeader = styled.header`
   position: fixed;
   top: 0;
   left: 0;
-  padding: ${({ theme })=> theme.sizes.rythm}px;
-`;
+  padding: ${({ theme }) => theme.sizes.rythm}px;
+`
 
 export const Header: FunctionComponent<{}> = props => {
   return <GooderHeader>
