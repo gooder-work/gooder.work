@@ -3,9 +3,15 @@ import { PostingDocument } from './models/posting'
 
 export const queries = {
   get: {
-    featured_postings: () => PostingsService.featured(),
+    'postings/:id': ({ id }: { id: string }) => PostingsService.find(id),
+    'featured_postings': (params: any) => PostingsService.featured(),
   },
   post: {
-    create_posting: (data: PostingDocument) => PostingsService.create(data),
+    create_posting: (params: any, data: any) => PostingsService.create(data),
   },
+}
+
+export const routes = {
+  '/postings/:id': [ 'postings/:id' ],
+  '/': [ 'featured_postings' ],
 }
