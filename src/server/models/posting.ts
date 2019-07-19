@@ -6,6 +6,15 @@ import { CompanyDocument } from './company';
 export interface PostingDocument {
   _id?: string
   title: string
+  description: string
+  posted_at: Date
+  valid_until: Date
+  link: string
+  employment_type: 'FULL_TIME' | 'PART_TIME' | 'CONTRACTOR' | 'TEMPORARY' | 'INTERN' | 'VOLUNTEER' | 'OTHER'
+  city: string
+  region: string
+  country: string
+  remote: boolean
   company: CompanyDocument
 }
 
