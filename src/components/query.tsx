@@ -5,14 +5,23 @@ import axios, { AxiosRequestConfig, Method } from 'axios'
 import { queries } from '../server/queries'
 import { ResponsesContext } from '../contexts/responses'
 
-export const query = async (method: Method, endpoint: keyof typeof queries.get | keyof typeof queries.post) => {
+export const request = async (
+  method: Method,
+  endpoint: keyof typeof queries.get | keyof typeof queries.post,
+  data?: any
+) => {
   const response = await axios({
     method,
     url: `${process.env.NODE_ENV === 'production' ? '' : '//localhost:5000'}/queries/${endpoint}`,
     withCredentials: true,
     responseType: 'json',
+    data,
   })
   return response.data
+}
+
+export const mutate = (endpoint: keyof typeof queries.post, data: any) => {
+  return request('post', endpoint, data)
 }
 
 export class Query<T> extends Component<{
@@ -48,6 +57,6 @@ export class Query<T> extends Component<{
 
   private request() {
     this.setState({ loading: true })
-    query('get', this.props.endpoint).then(response => this.setState({ response, loading: false }))
+    request('get', this.props.endpoint).then(response => this.setState({ response, loading: false }))
   }
 }
