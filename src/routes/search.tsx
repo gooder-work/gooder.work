@@ -11,9 +11,13 @@ export const Search: FunctionComponent<RouteComponentProps<any>> = props => {
     <p>Search here <Button>Search</Button></p>
     <form onSubmit={e => {
       e.preventDefault()
-      mutate('notification_signup', { email: e.currentTarget.email.value }) 
+      mutate('notification_signup', {
+        email: e.currentTarget.email.value,
+        query: e.currentTarget.query.value,
+      }) 
     }}>
       <input type='email' name='email' placeholder='Email' />
+      <input name='query' placeholder='Search query' />
       <button type='submit'>Send</button>
     </form>
   </>
