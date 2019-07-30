@@ -1,41 +1,41 @@
 import React from 'react'
 import { FunctionComponent } from 'react'
 import { Link } from 'react-router-dom'
-import styled from 'styled-components'
+import styled, { css } from 'styled-components'
 
-const GooderButton = styled.button`
+
+interface Props {
+  small?: boolean
+}
+
+const GooderButton = styled.button<Props>(({ small, theme }) => `
   cursor: pointer;
-  outline: none;
   position: relative;
   display: inline-block;
 
-  color: ${({ theme }) => theme.colors.background};
+  color: ${theme.colors.highlights.subdued};
   text-decoration: none;
-  line-height: ${({ theme }) => theme.sizes.rythm}px;
-  font-size: ${({ theme }) => theme.sizes.rythm / 1.333}px;
-  font-weight: bold;
+  font-size: ${theme.sizes.rythm}px;
+  line-height: 1;
+  font-weight: normal;
   text-align: center;
-  background-color: ${({ theme }) => theme.colors.primary};
+  background-color: ${theme.colors.highlights.light};
 
-  padding: ${({ theme }) => theme.sizes.rythm}px;
-  border: 1px solid ${({ theme }) => theme.colors.background};
-  border-radius: ${({ theme }) => theme.sizes.radius}px;
+  padding: ${theme.sizes.rythm}px;
+  border: 1px solid ${theme.colors.backgrounds.light};
+  border-radius: ${theme.sizes.radius}px;
 
-  &:hover,
-  &:focus {
-    top: -1px;
-  }
-
-  &:active {
-    top: 0px;
-  }
+  ${small ? `
+    font-size: ${theme.sizes.small}px;
+    padding: ${theme.sizes.rythm / 3}px ${theme.sizes.rythm / 2}px;
+  ` : ''}
 
   &:disabled {
     pointer-events: none;
     opacity: 0.88;
   }
-`
+`)
 
-export const Button: FunctionComponent<{}> = props => {
-  return <GooderButton>{props.children}</GooderButton>
+export const Button: FunctionComponent<Props> = props => {
+  return <GooderButton {...props}>{props.children}</GooderButton>
 }
