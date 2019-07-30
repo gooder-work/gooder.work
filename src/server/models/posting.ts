@@ -6,6 +6,7 @@ import { CompanyDocument } from './company';
 export interface PostingDocument {
   _id?: string
   title: string
+  city: string
   company: CompanyDocument
 }
 
