@@ -1,14 +1,13 @@
 import { FilterQuery, ObjectId, Db } from 'mongodb'
 
 import { db } from '../clients/mongodb'
+import { CompanyDocument } from './company';
 
 export interface PostingDocument {
   _id?: string
   title: string
   city: string
-  company?: {
-    name: string
-  }
+  company: CompanyDocument
 }
 
 export default class Posting {
@@ -16,7 +15,28 @@ export default class Posting {
   public static db: Db
 
   public static async list(filters: FilterQuery<PostingDocument>): Promise<PostingDocument[]> {
-    return this.db.collection(this.collection).find(filters).toArray()
+    const match = {
+      $match: filters,
+    }
+
+    const lookup  = {
+      $lookup: {
+        from: 'companies',
+        localField: 'company_id',
+        foreignField: '_id',
+        as: 'company',
+      },
+    }
+
+    const companyUnwind = {
+      $unwind: {
+        path: '$company',
+        includeArrayIndex: '0',
+        preserveNullAndEmptyArrays: false,
+      },
+    }
+
+    return this.db.collection(this.collection).aggregate([match, lookup, companyUnwind]).toArray()
   }
 
   public static async one(id: ObjectId) {
