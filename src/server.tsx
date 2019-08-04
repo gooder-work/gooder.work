@@ -12,7 +12,7 @@ import { oneLine } from 'common-tags'
 
 import { queries, routes } from './server/queries'
 
-import Main from './main'
+// import Main from './main'
 
 const server: Application = express()
 server.disable('x-powered-by')
@@ -31,50 +31,50 @@ Object.entries(queries).forEach(([method, endpoints]) => {
   })
 })
 
-server.get('/*', async (req, res) => {
-  let responses = {}
+// server.get('/*', async (req, res) => {
+//   let responses = {}
 
-  const match = Object.entries(routes)
-    .map(([path, endpoints]) => {
-      return {
-        ...matchPath(req.url, { path, exact: true }),
-        endpoints,
-      }
-    }).find(m => m.path)
+//   const match = Object.entries(routes)
+//     .map(([path, endpoints]) => {
+//       return {
+//         ...matchPath(req.url, { path, exact: true }),
+//         endpoints,
+//       }
+//     }).find(m => m.path)
 
-  if (match) {
-    responses = (await Promise.all(
-       match.endpoints.map(async endpoint => ({
-         endpoint: Object.entries<string>(match.params).reduce((reduced, entry) => {
-           return reduced.replace(`:${entry[0]}`, entry[1])
-         }, endpoint),
-         response: await queries.get[endpoint as 'featured_postings'](match.params),
-       }))
-     )).reduce<{ [endpoint: string]: any }>((reduced, response) => {
-      reduced[response.endpoint] = response.response
-      return reduced
-    }, {})
-  }
+//   if (match) {
+//     responses = (await Promise.all(
+//        match.endpoints.map(async endpoint => ({
+//          endpoint: Object.entries<string>(match.params).reduce((reduced, entry) => {
+//            return reduced.replace(`:${entry[0]}`, entry[1])
+//          }, endpoint),
+//          response: await queries.get[endpoint as 'featured_postings'](match.params),
+//        }))
+//      )).reduce<{ [endpoint: string]: any }>((reduced, response) => {
+//       reduced[response.endpoint] = response.response
+//       return reduced
+//     }, {})
+//   }
   
-  const main = <Main staticLocation={req.url} responses={responses} />
+//   const main = <Main staticLocation={req.url} responses={responses} />
 
-  const sheet = new ServerStyleSheet()
-  const html = renderToString(sheet.collectStyles(main))
-  sheet.seal()
-  const css = sheet.getStyleTags()
+//   const sheet = new ServerStyleSheet()
+//   const html = renderToString(sheet.collectStyles(main))
+//   sheet.seal()
+//   const css = sheet.getStyleTags()
   
-  res.send(oneLine`<!doctype html>
-    <html>
-      <head>
-        ${css.replace('data-styled', 'data-server-styled')}
-      </head>
-      <body>
-        <div id="main">${html}</div>
-        <script>window.responses = ${JSON.stringify(responses)}</script>
-        <script async src="/dist/index.js"></script>
-      </body>
-    </html>`)
-})
+//   res.send(oneLine`<!doctype html>
+//     <html>
+//       <head>
+//         ${css.replace('data-styled', 'data-server-styled')}
+//       </head>
+//       <body>
+//         <div id="main">${html}</div>
+//         <script>window.responses = ${JSON.stringify(responses)}</script>
+//         <script async src="/dist/index.js"></script>
+//       </body>
+//     </html>`)
+// })
 
 
 server.listen(5000)

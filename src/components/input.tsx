@@ -1,8 +1,7 @@
 import React from 'react'
 import { FunctionComponent } from 'react'
 import { Link } from 'react-router-dom'
-import styled, { css } from 'styled-components'
-
+import styled, { css, StyledProps } from 'styled-components'
 
 interface Props {
   name: string
@@ -13,7 +12,7 @@ interface Props {
   label?: string
 }
 
-const GooderInput = styled.input<Props>(({ theme }) => `
+export const inputStyles = ({ theme }: StyledProps<{}>) => `
   font-size: ${theme.sizes.rythm}px;
   font-weight: normal;
   color: ${theme.colors.primary};
@@ -27,7 +26,8 @@ const GooderInput = styled.input<Props>(({ theme }) => `
 
   ::-webkit-input-placeholder, ::-webkit-input-placeholder { color: ${theme.colors.highlights.subdued}; }
   :-moz-placeholder, :-moz-placeholder { color: ${theme.colors.highlights.subdued}; }
-`)
+`
+const GooderInput = styled.input(inputStyles)
 
 export const Input: FunctionComponent<Props> = props => {
   return <GooderInput {...props}>{props.children}</GooderInput>

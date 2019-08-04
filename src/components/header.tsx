@@ -5,7 +5,7 @@ import styled from 'styled-components'
 
 import { Flex } from './flex'
 import { Button } from './button'
-import { Input } from './input'
+import { Search } from './search'
 
 const GooderHeader = styled.header(({ theme }) => `
   position: fixed;
@@ -49,7 +49,7 @@ export const Header: FunctionComponent<{}> = props => {
         <Link to='/new_posting'><small>Post new job</small></Link>
       </nav>
       <nav>
-        <Input type='search' name='search' placeholder='Search job posting' />
+        <Search />
       </nav>
       <nav>
         <Button small>Login</Button>

@@ -17,6 +17,7 @@ declare module 'styled-components' {
         empty: string
         subdued: string
         light: string
+        dark: string
       }
       highlights: {
         subdued: string
@@ -34,6 +35,7 @@ export const colors = {
     empty: '#FFFFFF',
     subdued: '#F2F3F2',
     light: '#FDF9F3',
+    dark: '#000000',
   },
   highlights: {
     subdued: '#3041AF',
@@ -108,7 +110,8 @@ export const GlobalStyle = createGlobalStyle(({ theme }) => `
   }
 
   a, button, input {
-    outline-color: ${theme.colors.highlights.light}
+    // outline-color: ${theme.colors.highlights.light};
+    outline: none;
     cursor: pointer;
     color: inherit;
     text-decoration: none;
